@@ -20,16 +20,16 @@
                 try {
                     let result = iframe.contentWindow.frames.length;
                     removeIframe();
-                    resolve(result > 0);
+                    return resolve(result > 0);
                 } catch (e) {
                     removeIframe();
-                    resolve(false);
+                    return resolve(false);
                 }
             };
 
             setTimeout(() => {
                 removeIframe();
-                resolve(false);
+                return resolve(false);
             }, 1000);
         });
     }
