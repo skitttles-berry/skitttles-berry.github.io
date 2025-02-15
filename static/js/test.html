@@ -7,8 +7,7 @@
             iframe.src = "http://localhost:8000/search?query=" + query;
             iframe.onload = () => {
                 try {
-                    let result = iframe.contentWindow.frames.length;
-                    return resolve(result != 0);
+                    return resolve(iframe.contentWindow.frames.length != 0);
                 } catch (e) {
                     return resolve(false);
                 }
