@@ -3,7 +3,7 @@
 <script>
     async function search(query) {
         return new Promise((resolve) => {
-            let iframe = document.createElement("iframe");
+            const iframe = document.createElement("iframe");
             iframe.src = "http://127.0.0.1:8000/search?query=" + query;
             iframe.style.display = "none";
             document.body.appendChild(iframe);
