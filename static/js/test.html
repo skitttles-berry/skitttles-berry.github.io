@@ -4,34 +4,18 @@
     async function search(query) {
         return new Promise((resolve) => {
             const iframe = document.createElement("iframe");
-            iframe.style.display = "none";
             iframe.src = "http://localhost:8000/search?query=" + query;
             document.body.appendChild(iframe);
             let removed = false;
 
-            function removeIframe() {
-                if (!removed) {
-                    removed = true;
-                    iframe.onload = null;
-                    document.body.removeChild(iframe);
-                }
-            }
-
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    removeIframe();
                     resolve(result > 0);
                 } catch (e) {
-                    removeIframe();
                     resolve(false);
                 }
             };
-
-            setTimeout(() => {
-                removeIframe();
-                resolve(false);
-            }, 3000);
         });
     }
 
