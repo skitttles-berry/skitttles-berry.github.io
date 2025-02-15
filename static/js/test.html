@@ -3,13 +3,11 @@
 <script>
     async function search(query) {
         return new Promise((resolve) => {
-            const iframe = document.createElement("iframe");
+            const iframe = document.getElementById("iframe");
             iframe.src = "http://localhost:8000/search?query=" + query;
-            document.body.appendChild(iframe);
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    img.src = `https://ijykwcv.request.dreamhack.games/${result}`;
                     return resolve(result != 0);
                 } catch (e) {
                     return resolve(false);
