@@ -1,10 +1,10 @@
-<iframe id="iframe"></iframe>
+<iframe id="iframe" style="display: none;"></iframe>
 <img id="img">
 <script>
     async function search(query) {
         return new Promise((resolve) => {
             const iframe = document.createElement("iframe");
-            // 내부망의 IP를 사용
+            iframe.style.display = "none";
             iframe.src = "http://localhost:8000/search?query=" + query;
             document.body.appendChild(iframe);
             let removed = false;
