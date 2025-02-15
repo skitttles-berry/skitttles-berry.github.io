@@ -20,16 +20,16 @@
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    // removeIframe();
+                    removeIframe();
                     resolve(result > 0);
                 } catch (e) {
-                    // removeIframe();
+                    removeIframe();
                     resolve(false);
                 }
             };
 
             setTimeout(() => {
-                // removeIframe();
+                removeIframe();
                 resolve(false);
             }, 1000);
         });
