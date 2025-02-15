@@ -39,9 +39,7 @@
         let secret = "DH{";
 
         while (secret[secret.length - 1] !== "}") {
-            let promises = chars.split("").map(c => 
-                search(secret + c).then(result => ({ char: c, success: result }))
-            );
+            let promises = chars.split("").map(c => search(secret + c).then(result => ({ char: c, success: result })));
             let results = await Promise.all(promises);
 
             let found = false;
