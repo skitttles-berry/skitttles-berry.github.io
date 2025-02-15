@@ -4,7 +4,7 @@
     async function search(query) {
         return new Promise((resolve) => {
             const iframe = document.getElementById("iframe");
-            iframe.src = "http://localhost:8000/search?query=" + query;
+            iframe.src = `http://localhost:8000/search?query=${query}`;
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
