@@ -8,11 +8,7 @@
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    if (result != 0) {
-                        return resolve(true);
-                    } else {
-                        return resolve(false);
-                    }
+                    return resolve(result != 0);
                 } catch (e) {
                     return resolve(false);
                 }
