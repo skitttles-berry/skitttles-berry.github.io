@@ -6,14 +6,12 @@
             const iframe = document.createElement("iframe");
             iframe.src = "http://localhost:8000/search?query=" + query;
             document.body.appendChild(iframe);
-            let removed = false;
-
             iframe.onload = () => {
                 try {
                     let result = iframe.contentWindow.frames.length;
-                    resolve(result != 0);
+                    return resolve(result != 0);
                 } catch (e) {
-                    resolve(false);
+                    return resolve(false);
                 }
             };
         });
