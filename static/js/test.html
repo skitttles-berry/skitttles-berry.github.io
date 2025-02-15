@@ -9,12 +9,12 @@
                 try {
                     let result = iframe.contentWindow.frames.length;
                     if (result != 0) {
-                        return true;
+                        return resolve(true);
                     } else {
-                        return false;
+                        return resolve(false);
                     }
                 } catch (e) {
-                    return false;
+                    return resolve(false);
                 }
             };
         });
