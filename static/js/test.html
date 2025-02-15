@@ -5,7 +5,6 @@
         return new Promise((resolve) => {
             const iframe = document.createElement("iframe");
             iframe.src = "http://127.0.0.1:8000/search?query=" + query;
-            iframe.style.display = "none";
             document.body.appendChild(iframe);
             let removed = false;
 
@@ -21,7 +20,7 @@
                 try {
                     let result = iframe.contentWindow.frames.length;
                     removeIframe();
-                    resolve(true);
+                    resolve(result > 0);
                 } catch (e) {
                     removeIframe();
                     resolve(false);
