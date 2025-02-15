@@ -3,11 +3,20 @@
 <script>
     async function search(query) {
         return new Promise((resolve) => {
-            const iframe = document.getElementById("iframe");
+            const iframe = document.createElement("iframe");
+            iframe.style.display = "none";
             iframe.src = `http://localhost:8000/search?query=${query}`;
+            document.body.appendChild(iframe);
+
             iframe.onload = () => {
-                let result = iframe.contentWindow.frames.length;
-                return resolve(result != 0);
+                let result;
+                try {
+                    result = iframe.contentWindow.frames.length;
+                } catch (e) {
+                    result = 0;
+                }
+                document.body.removeChild(iframe);
+                resolve(result != 0);
             };
         });
     }
