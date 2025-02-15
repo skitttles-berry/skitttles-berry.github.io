@@ -7,9 +7,14 @@
             iframe.src = "http://localhost:8000/search?query=" + query;
             iframe.onload = () => {
                 try {
-                    return resolve(iframe.contentWindow.frames.length != 0);
+                    let result = iframe.contentWindow.frames.length;
+                    if (result != 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } catch (e) {
-                    return resolve(false);
+                    return false;
                 }
             };
         });
